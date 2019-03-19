@@ -35,33 +35,6 @@ public class SimulationOptions extends OptionsBase {
 	public double rc;
 
 	@Option(
-			name = "pbc",
-			abbrev = 'b',
-			help = "Enable periodic boundary conditions.",
-			category = "startup",
-			defaultValue = "false"
-	)
-	public boolean pbc;
-
-	@Option(
-			name = "bf",
-			abbrev = 'f',
-			help = "Enable brute force algorithm.",
-			category = "startup",
-			defaultValue = "false"
-	)
-	public boolean bf;
-
-	@Option(
-			name = "staticFile",
-			abbrev = 's',
-			help = "Path to static file.",
-			category = "startup",
-			defaultValue = "/"
-	)
-	public String staticFile;
-
-	@Option(
 			name = "dynamicFile",
 			abbrev = 'd',
 			help = "Path to dynamic file.",
@@ -69,5 +42,41 @@ public class SimulationOptions extends OptionsBase {
 			defaultValue = "/"
 	)
 	public String dynamicFile;
+
+	@Option(
+			name = "noise",
+			abbrev = 'n',
+			help = "Noise in the environment",
+			category = "startup",
+			defaultValue = "1.0"
+	)
+	public double noise;
+
+	@Option(
+			name = "boxSide",
+			abbrev = 'l',
+			help = "The length of the box side",
+			category = "startup",
+			defaultValue = "2.0"
+	)
+	public double boxSide;
+
+	@Option(
+			name = "speed",
+			abbrev = 's',
+			help = "Speed module of the environment",
+			category = "startup",
+			defaultValue = "1.0"
+	)
+	public double speed;
+
+	@Option(
+			name = "time",
+			abbrev = 't',
+			help = "Time of simulation.",
+			category = "startup",
+			defaultValue = "1.0"
+	)
+	public double time;
 
 }
