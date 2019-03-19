@@ -16,7 +16,7 @@ public class Parser {
 
 	private String dynamicFilePath;
 
-	private int numberOfParticles;
+	private int numberOfParticles = 0;
 	private Queue<Particle> particles;
 
 	public Parser(String dynamicFilePath) {
@@ -37,13 +37,18 @@ public class Parser {
 			System.out.println("Dynamic file not found exception: " + dynamicFilePath);
 			return false;
 		}
+
 		sc.nextInt();   // t0 not used
-		for (int i = 0; i < numberOfParticles; i++) {
+
+		int id = 1;
+		while (sc.hasNextDouble()) {
 			double x = sc.nextDouble();
 			double y = sc.nextDouble();
-			Particle particle = particles.poll();
-			particle.setPosition(new Point2D.Double(x, y));
-			particles.add(particle);
+			double angle = sc.nextDouble();
+			Particle p = new Particle(id++, angle);
+			p.setPosition(new Point2D.Double(x, y));
+			particles.add(p);
+			numberOfParticles++;
 		}
 		sc.close();
 		return true;

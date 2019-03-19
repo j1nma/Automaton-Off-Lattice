@@ -48,7 +48,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 'n',
 			help = "Noise in the environment",
 			category = "startup",
-			defaultValue = "1.0"
+			defaultValue = "0.1"
 	)
 	public double noise;
 
@@ -66,7 +66,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 's',
 			help = "Speed module of the environment",
 			category = "startup",
-			defaultValue = "1.0"
+			defaultValue = "0.3"
 	)
 	public double speed;
 
@@ -75,7 +75,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 't',
 			help = "Time of simulation.",
 			category = "startup",
-			defaultValue = "1.0"
+			defaultValue = "100"
 	)
 	public double time;
 

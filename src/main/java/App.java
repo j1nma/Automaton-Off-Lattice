@@ -20,7 +20,12 @@ public class App {
 		parser.parseAndExitUponError(args);
 		SimulationOptions options = parser.getOptions(SimulationOptions.class);
 		assert options != null;
-		if (options.rc < 0 || options.dynamicFile.isEmpty()) {
+		if (options.rc < 0
+				|| options.noise < 0
+				|| options.boxSide < 0
+				|| options.speed < 0
+				|| options.time <= 0
+				|| options.dynamicFile.isEmpty()) {
 			printUsage(parser);
 		}
 

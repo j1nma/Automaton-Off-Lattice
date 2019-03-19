@@ -8,14 +8,12 @@ public class Particle {
 
 	private final int id;
 	private Point2D.Double position;
-	private double radius;
-	private double property;
+	private double angle;
 	private Set<Particle> neighbours;
 
-	public Particle(int id, double radius, double property) {
+	public Particle(int id, double angle) {
 		this.id = id;
-		this.radius = radius;
-		this.property = property;
+		this.angle = angle;
 		this.neighbours = new HashSet<>();
 	}
 
@@ -37,8 +35,7 @@ public class Particle {
 		return "models.Particle{" +
 				"id=" + id +
 				", position=" + position +
-				", radius=" + radius +
-				", property=" + property +
+				", angle=" + angle +
 				", neighbours=" + neighbours +
 				'}';
 	}
@@ -55,16 +52,8 @@ public class Particle {
 		this.position = position;
 	}
 
-	public double getRadius() {
-		return radius;
-	}
-
-	public double getProperty() {
-		return property;
-	}
-
-	public void setProperty(double property) {
-		this.property = property;
+	public double getAngle() {
+		return angle;
 	}
 
 	public Set<Particle> getNeighbours() {
@@ -98,8 +87,7 @@ public class Particle {
 	public double getDistanceBetween(Particle particle) {
 		Point2D.Double particlePosition = particle.getPosition();
 		return Math.sqrt(Math.pow(position.x - particlePosition.x, 2) +
-				Math.pow(position.y - particlePosition.y, 2))
-				- radius - particle.getRadius();
+				Math.pow(position.y - particlePosition.y, 2));
 	}
 
 	public void addNeighbour(Particle neighbour) {
