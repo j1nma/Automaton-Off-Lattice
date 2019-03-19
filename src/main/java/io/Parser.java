@@ -10,45 +10,22 @@ import java.util.Queue;
 import java.util.Scanner;
 
 /**
- * Parser for static and dynamic files.
+ * Parser for dynamic file.
  */
 public class Parser {
 
-	private String staticFilePath;
 	private String dynamicFilePath;
 
 	private int numberOfParticles;
-	private double boxSide;
 	private Queue<Particle> particles;
 
-	public Parser(String staticFilePath, String dynamicFilePath) {
-		this.staticFilePath = staticFilePath;
+	public Parser(String dynamicFilePath) {
 		this.dynamicFilePath = dynamicFilePath;
 		this.particles = new LinkedList<>();
 	}
 
 	public boolean parse() {
-		return parseStaticFile() && parseDynamicFile();
-	}
-
-	private boolean parseStaticFile() {
-		File staticFile = new File(staticFilePath);
-		Scanner sc;
-		try {
-			sc = new Scanner(staticFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("Static file not found exception: " + staticFilePath);
-			return false;
-		}
-		numberOfParticles = sc.nextInt();
-		boxSide = sc.nextDouble();
-		for (int i = 0; i < numberOfParticles; i++) {
-			double radius = sc.nextDouble();
-			double property = sc.nextDouble();
-			particles.add(new Particle(i + 1, radius, property));
-		}
-		sc.close();
-		return true;
+		return parseDynamicFile();
 	}
 
 	private boolean parseDynamicFile() {
@@ -72,14 +49,6 @@ public class Parser {
 		return true;
 	}
 
-	public String getStaticFilePath() {
-		return staticFilePath;
-	}
-
-	public void setStaticFilePath(String staticFilePath) {
-		this.staticFilePath = staticFilePath;
-	}
-
 	public String getDynamicFilePath() {
 		return dynamicFilePath;
 	}
@@ -94,14 +63,6 @@ public class Parser {
 
 	public void setNumberOfParticles(int numberOfParticles) {
 		this.numberOfParticles = numberOfParticles;
-	}
-
-	public double getBoxSide() {
-		return boxSide;
-	}
-
-	public void setBoxSide(double boxSide) {
-		this.boxSide = boxSide;
 	}
 
 	public Queue<Particle> getParticles() {

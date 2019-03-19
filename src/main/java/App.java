@@ -1,4 +1,3 @@
-import algorithms.BruteForce;
 import algorithms.CellIndexMethod;
 import com.google.devtools.common.options.OptionsParser;
 import io.OvitoWriter;
@@ -21,19 +20,19 @@ public class App {
 		parser.parseAndExitUponError(args);
 		SimulationOptions options = parser.getOptions(SimulationOptions.class);
 		assert options != null;
-		if (options.rc < 0 || options.staticFile.isEmpty() || options.dynamicFile.isEmpty()) {
+		if (options.rc < 0 || options.dynamicFile.isEmpty()) {
 			printUsage(parser);
 		}
 
-		// Parse static and dynamic files
-		Parser staticAndDynamicParser = new Parser(options.staticFile, options.dynamicFile);
-		if (!staticAndDynamicParser.parse()) return;
+		// Parse dynamic file
+		Parser dynamicParser = new Parser(options.dynamicFile);
+		if (!dynamicParser.parse()) return;
 
-		Queue<Particle> particles = staticAndDynamicParser.getParticles();
+		Queue<Particle> particles = dynamicParser.getParticles();
 
 		// Validate matrix size meets non-punctual criteria
 		if (!BoxSizeMeetsCriteria(options.M,
-				staticAndDynamicParser.getBoxSide(),
+				dynamicParser.getBoxSide(),
 				options.rc,
 				Objects.requireNonNull(particles.peek()).getRadius())) {
 			System.out.println("L / M > interactionRadius + 2 * particleRadius failed.");
@@ -42,7 +41,7 @@ public class App {
 
 		// Run algorithm
 		runAlgorithm(particles,
-				staticAndDynamicParser.getBoxSide(),
+				dynamicParser.getBoxSide(),
 				options.M,
 				options.rc,
 				options.bf,
@@ -58,18 +57,11 @@ public class App {
 
 		long startTime = System.currentTimeMillis();
 
-		if (bruteForce) {
-			BruteForce.run(particles,
-					L,
-					interactionRadius,
-					periodicBoundaryContour);
-		} else {
-			CellIndexMethod.run(particles,
-					L,
-					M,
-					interactionRadius,
-					periodicBoundaryContour);
-		}
+		CellIndexMethod.run(particles,
+				L,
+				M,
+				interactionRadius,
+				periodicBoundaryContour);
 
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;

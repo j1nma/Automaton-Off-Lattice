@@ -1,10 +1,4 @@
-function animation(static_file, dynamic_file, output_file, M, particle_id)
-  % Static File
-  fid = fopen(static_file,'r');
-  N = str2num(fgetl(fid));
-  L = str2num(fgetl(fid));
-  fclose(fid);
-  [radius colour] = textread(static_file,"%f %f", 'headerlines', 2);
+function animation(dynamic_file, output_file, M, particle_id)
   % Dynamic File
   [x y] = textread(dynamic_file,"%f %f", 'headerlines', 1);
   fid = fopen(output_file,'r');
