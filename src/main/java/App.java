@@ -1,4 +1,4 @@
-import algorithms.CellIndexMethod;
+import algorithms.OffLattice;
 import com.google.devtools.common.options.OptionsParser;
 import io.OvitoWriter;
 import io.Parser;
@@ -32,7 +32,7 @@ public class App {
 
 		// Validate matrix size meets non-punctual criteria
 		if (!BoxSizeMeetsCriteria(options.M,
-				dynamicParser.getBoxSide(),
+				options.boxSide,
 				options.rc,
 				Objects.requireNonNull(particles.peek()).getRadius())) {
 			System.out.println("L / M > interactionRadius + 2 * particleRadius failed.");
@@ -41,36 +41,27 @@ public class App {
 
 		// Run algorithm
 		runAlgorithm(particles,
-				dynamicParser.getBoxSide(),
+				options.boxSide,
 				options.M,
-				options.rc,
-				options.bf,
-				options.pbc);
+				options.rc);
 	}
 
 	private static void runAlgorithm(Queue<Particle> particles,
 	                                 double L,
 	                                 int M,
-	                                 double interactionRadius,
-	                                 boolean bruteForce,
-	                                 boolean periodicBoundaryContour) {
+	                                 double interactionRadius) {
 
 		long startTime = System.currentTimeMillis();
 
-		CellIndexMethod.run(particles,
+		OffLattice.run(particles,
 				L,
 				M,
-				interactionRadius,
-				periodicBoundaryContour);
+				interactionRadius);
 
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
 
-		if (bruteForce) {
-			System.out.println("Brute Force execution time: " + elapsedTime + "ms");
-		} else {
-			System.out.println("Cell Index Method execution time: " + elapsedTime + "ms");
-		}
+		System.out.println("Cell Index Method execution time: " + elapsedTime + "ms");
 
 		for (Particle p : particles) {
 			System.out.print(p.getId());
