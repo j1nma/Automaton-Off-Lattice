@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Queue;
 
 public class App {
@@ -38,9 +37,8 @@ public class App {
 		// Validate matrix size meets non-punctual criteria
 		if (!BoxSizeMeetsCriteria(options.M,
 				options.boxSide,
-				options.rc,
-				Objects.requireNonNull(particles.peek()).getRadius())) {
-			System.out.println("L / M > interactionRadius + 2 * particleRadius failed.");
+				options.rc)) {
+			System.out.println("L / M > interactionRadius failed.");
 			return;
 		}
 
@@ -87,12 +85,12 @@ public class App {
 	}
 
 	private static void printUsage(OptionsParser parser) {
-		System.out.println("Usage: java -jar tp1-1.0-SNAPSHOT.jar OPTIONS");
+		System.out.println("Usage: java -jar tp2-1.0-SNAPSHOT.jar OPTIONS");
 		System.out.println(parser.describeOptions(Collections.emptyMap(),
 				OptionsParser.HelpVerbosity.LONG));
 	}
 
-	private static boolean BoxSizeMeetsCriteria(int M, double L, double interactionRadius, double particleRadius) {
-		return M > 0 && L / M > interactionRadius + 2 * particleRadius;
+	private static boolean BoxSizeMeetsCriteria(int M, double L, double interactionRadius) {
+		return M > 0 && L / M > interactionRadius;
 	}
 }

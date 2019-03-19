@@ -20,7 +20,7 @@ python generate_multiple.py
 ### Running simulation
 
 ```
-java -jar tp1-1.0-SNAPSHOT.jar
+java -jar tp2-1.0-SNAPSHOT.jar
 ```
 
 Options:
@@ -36,7 +36,7 @@ The simulation's results (execution time and list of neighbours for each particl
 are printed to stdout. If you wish, you can redirect the output to a txt file:
 
 ```
-java -jar target/tp1-1.0-SNAPSHOT.jar --pbc=true --dynamicFile=random/Dynamic-5.txt --radius=3.0 > output.txt
+java -jar target/tp2-1.0-SNAPSHOT.jar --pbc=true --dynamicFile=random/Dynamic-5.txt --radius=3.0 > output.txt
 ```
 
 ### Running Animation

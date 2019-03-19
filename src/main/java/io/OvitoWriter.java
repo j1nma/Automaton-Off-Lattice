@@ -47,7 +47,7 @@ public class OvitoWriter<T extends Particle> {
 			Color color = Color.RED;
 			fileWriter.write(String.format("\t%d\t%d\t%d", color.getRed(), color.getGreen(), color.getBlue()));
 			// Write draw radius
-			fileWriter.write(String.format("\t%g", particle.getRadius()));
+//			fileWriter.write(String.format("\t%g", particle.getRadius()));
 			// Always write newline
 			fileWriter.write('\n');
 		}
