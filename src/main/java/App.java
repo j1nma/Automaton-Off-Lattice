@@ -63,8 +63,8 @@ public class App {
 	                                 double noise,
 	                                 double speed) throws CloneNotSupportedException {
 
+		StringBuffer buffer = new StringBuffer();
 		long startTime = System.currentTimeMillis();
-
 		OffLattice.run(
 				particles,
 				L,
@@ -72,7 +72,8 @@ public class App {
 				interactionRadius,
 				time,
 				noise,
-				speed
+				speed,
+				buffer
 		);
 
 		long stopTime = System.currentTimeMillis();
@@ -80,19 +81,10 @@ public class App {
 
 		System.out.println("Off-Lattice Method execution time: " + elapsedTime + "ms");
 
-//		System.out.println("Off-Lattice Method execution time: " + elapsedTime + "ms");
-//		for (Particle p : particles) {
-//			System.out.print(p.getId());
-//			for (Particle neighbour : p.getNeighbours()) {
-//				System.out.print(" " + neighbour.getId());
-//			}
-//			System.out.print("\n");
-//		}
-
 		OvitoWriter<Particle> ovitoWriter;
 		try {
 			ovitoWriter = new OvitoWriter<>(Paths.get("ovito_file.txt"));
-			ovitoWriter.exportParticles(new LinkedList<>(particles), 0);
+			ovitoWriter.writeBuffer(buffer);
 			ovitoWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();

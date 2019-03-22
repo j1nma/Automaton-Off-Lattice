@@ -54,4 +54,9 @@ public class OvitoWriter<T extends Particle> {
 		fileWriter.flush();
 	}
 
+	public void writeBuffer(StringBuffer buffer) throws IOException {
+		fileWriter.write(buffer.toString());
+		fileWriter.flush();
+	}
+
 }

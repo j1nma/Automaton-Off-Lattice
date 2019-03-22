@@ -21,6 +21,7 @@ public class OffLattice {
 	private static double rc;
 	private static double n;
 	private static double s;
+	private static StringBuffer buffer;
 
 	public static void run(
 			Queue<Particle> particlesFromDynamic,
@@ -29,24 +30,26 @@ public class OffLattice {
 			double interactionRadius,
 			int limitTime,
 			double noise,
-			double speed
+			double speed,
+			StringBuffer buff
 	) throws CloneNotSupportedException {
 		rc = interactionRadius;
 		M = matrixSize;
 		L = boxSide;
 		n = noise;
 		s = speed;
-
+		buffer = buff;
 		makeMatrix();
 
 		// Add particles to the cells they belong and print their location
-		System.out.println(0);
+		buffer.append(particlesFromDynamic.size()+"\n");
+		buffer.append(0+"\n");
 		for (Particle p : particlesFromDynamic) {
 
 			// Assign cell
 			assignCell(p);
 			// Print location
-			System.out.println(p.getPosition().x + " " + p.getPosition().y + " " + p.getAngle());
+			buffer.append(p.getId()+" "+p.getPosition().x + " " + p.getPosition().y + " " + p.getAngle()+"\n");
 		}
 
 
@@ -84,9 +87,10 @@ public class OffLattice {
 
 			// imprime y blanquea para el siguiente clonado
 			makeMatrix();
-			System.out.println(time + 1);
+			buffer.append(particles.size()+"\n");
+			buffer.append(time + 1+"\n");
 			for (Particle particle: particles) {
-				System.out.println(particle.getPosition().x + " " + particle.getPosition().y + " " + particle.getAngle());
+				buffer.append(particle.getId()+" "+particle.getPosition().x + " " + particle.getPosition().y + " " + particle.getAngle()+"\n");
 				particle.clearNeighbours();
 				assignCell(particle);
 			}
