@@ -13,7 +13,7 @@ import java.util.Queue;
 
 public class App {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		// Parse command line options
 		OptionsParser parser = OptionsParser.newOptionsParser(SimulationOptions.class);
 		parser.parseAndExitUponError(args);
@@ -43,28 +43,38 @@ public class App {
 		}
 
 		// Run algorithm
-		runAlgorithm(particles,
+		runAlgorithm(
+				particles,
 				options.boxSide,
 				options.M,
-				options.rc);
+				options.rc,
+				options.time,
+				options.noise
+		);
 	}
 
 	private static void runAlgorithm(Queue<Particle> particles,
 	                                 double L,
 	                                 int M,
-	                                 double interactionRadius) {
+	                                 double interactionRadius,
+	                                 int time,
+	                                 double noise) throws CloneNotSupportedException {
 
 		long startTime = System.currentTimeMillis();
 
-		OffLattice.run(particles,
+		OffLattice.run(
+				particles,
 				L,
 				M,
-				interactionRadius);
+				interactionRadius,
+				time,
+				noise
+		);
 
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
 
-		System.out.println("Cell Index Method execution time: " + elapsedTime + "ms");
+		System.out.println("Off-Lattice Method execution time: " + elapsedTime + "ms");
 
 		for (Particle p : particles) {
 			System.out.print(p.getId());

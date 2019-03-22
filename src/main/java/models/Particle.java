@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Particle {
+public class Particle implements Cloneable{
 
 	private final int id;
 	private Point2D.Double position;
@@ -92,5 +92,17 @@ public class Particle {
 
 	public void addNeighbour(Particle neighbour) {
 		this.neighbours.add(neighbour);
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+	public void clearNeighbours() {
+		this.neighbours = new HashSet<>();
+	}
+
+	public Particle getClone() throws CloneNotSupportedException {
+		return (Particle) super.clone();
 	}
 }
