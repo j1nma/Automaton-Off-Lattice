@@ -57,7 +57,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 'l',
 			help = "The length of the box side",
 			category = "startup",
-			defaultValue = "2.0"
+			defaultValue = "20.0"
 	)
 	public double boxSide;
 

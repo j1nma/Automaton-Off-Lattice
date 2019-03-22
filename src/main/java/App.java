@@ -24,6 +24,7 @@ public class App {
 				|| options.boxSide < 0
 				|| options.speed < 0
 				|| options.time <= 0
+				|| options.M <= 0
 				|| options.dynamicFile.isEmpty()) {
 			printUsage(parser);
 		}
@@ -49,7 +50,8 @@ public class App {
 				options.M,
 				options.rc,
 				options.time,
-				options.noise
+				options.noise,
+				options.speed
 		);
 	}
 
@@ -58,7 +60,8 @@ public class App {
 	                                 int M,
 	                                 double interactionRadius,
 	                                 int time,
-	                                 double noise) throws CloneNotSupportedException {
+	                                 double noise,
+	                                 double speed) throws CloneNotSupportedException {
 
 		long startTime = System.currentTimeMillis();
 
@@ -68,7 +71,8 @@ public class App {
 				M,
 				interactionRadius,
 				time,
-				noise
+				noise,
+				speed
 		);
 
 		long stopTime = System.currentTimeMillis();
@@ -76,13 +80,14 @@ public class App {
 
 		System.out.println("Off-Lattice Method execution time: " + elapsedTime + "ms");
 
-		for (Particle p : particles) {
-			System.out.print(p.getId());
-			for (Particle neighbour : p.getNeighbours()) {
-				System.out.print(" " + neighbour.getId());
-			}
-			System.out.print("\n");
-		}
+//		System.out.println("Off-Lattice Method execution time: " + elapsedTime + "ms");
+//		for (Particle p : particles) {
+//			System.out.print(p.getId());
+//			for (Particle neighbour : p.getNeighbours()) {
+//				System.out.print(" " + neighbour.getId());
+//			}
+//			System.out.print("\n");
+//		}
 
 		OvitoWriter<Particle> ovitoWriter;
 		try {

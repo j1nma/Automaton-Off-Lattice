@@ -20,6 +20,7 @@ public class OffLattice {
 	private static int M;
 	private static double rc;
 	private static double n;
+	private static double s;
 
 	public static void run(
 			Queue<Particle> particlesFromDynamic,
@@ -27,24 +28,25 @@ public class OffLattice {
 			int matrixSize,
 			double interactionRadius,
 			int limitTime,
-			double noise
+			double noise,
+			double speed
 	) throws CloneNotSupportedException {
-		makeMatrix();
 		rc = interactionRadius;
 		M = matrixSize;
 		L = boxSide;
 		n = noise;
+		s = speed;
 
-
+		makeMatrix();
 
 		// Add particles to the cells they belong and print their location
+		System.out.println(0);
 		for (Particle p : particlesFromDynamic) {
 
 			// Assign cell
 			assignCell(p);
 			// Print location
-			System.out.println(0);
-			System.out.println(p.getPosition().x + ' ' + p.getPosition().y + ' ' + p.getAngle());
+			System.out.println(p.getPosition().x + " " + p.getPosition().y + " " + p.getAngle());
 		}
 
 
@@ -74,6 +76,7 @@ public class OffLattice {
 				for (CellParticle cp : cpList) {
 					Particle particle = cp.particle;
 					calculatePosition(particle);
+					calculateAngle(particle);
 					// For printing
 					particles.add(particle);
 				}
@@ -83,16 +86,12 @@ public class OffLattice {
 			makeMatrix();
 			System.out.println(time + 1);
 			for (Particle particle: particles) {
-				System.out.println(particle.getPosition().x + ' ' + particle.getPosition().y + ' ' + particle.getAngle());
+				System.out.println(particle.getPosition().x + " " + particle.getPosition().y + " " + particle.getAngle());
 				particle.clearNeighbours();
 				assignCell(particle);
 			}
 
 		}
-
-
-		// old code
-
 	}
 
 	private static List<List<CellParticle>> cloneMatrix(List<List<CellParticle>> cells) throws CloneNotSupportedException {
@@ -129,8 +128,25 @@ public class OffLattice {
 			cells.add(new ArrayList<>());
 	}
 
-	private static void calculatePosition(Particle particle) {
-		double angle = 0;
+	private static void calculatePosition(Particle p){
+		p.getPosition().x += Math.cos(p.getAngle()) * s;
+		p.getPosition().y += Math.sin(p.getAngle()) * s;
+		if (p.getPosition().x >= L){
+			p.getPosition().x -= L;
+		}
+		if (p.getPosition().y >= L){
+			p.getPosition().y -= L;
+		}
+		if (p.getPosition().x < 0){
+			p.getPosition().x += L;
+		}
+		if (p.getPosition().y < 0){
+			p.getPosition().y += L;
+		}
+	}
+
+	private static void calculateAngle(Particle particle) {
+		Double angle = 0.0;
 		Set<Particle> neighbours = particle.getNeighbours();
 
 		double sin = 0;
@@ -143,7 +159,8 @@ public class OffLattice {
 		sin = sin / neighbours.size();
 		cos = cos / neighbours.size();
 		angle = Math.atan2(sin, cos);
-		double noise =  n * (Math.random() - 1.0 / 2.0);
+		if (angle.isNaN()) angle = particle.getAngle();
+		double noise =  n * (Math.random() - 1.0 / 2.0); // TODO consultar si se agrega ruido cuando no existen vecinos
 		angle += noise;
 
 		if (angle > Math.PI){
