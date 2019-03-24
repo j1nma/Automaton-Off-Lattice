@@ -36,7 +36,7 @@ The simulation's results (execution time and list of neighbours for each particl
 are printed to stdout. If you wish, you can redirect the output to a txt file:
 
 ```
-java -jar target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-5.txt --radius=3.0 > output.txt
+java -jar target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-N=100.txt --radius=3.0 > output.txt
 ```
 
 ### Running Animation
