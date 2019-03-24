@@ -49,7 +49,7 @@ public class OffLattice {
 			// Assign cell
 			assignCell(p);
 			// Print location
-			buffer.append(p.getId()+" "+p.getPosition().x + " " + p.getPosition().y + " " + p.getAngle()+"\n");
+			buffer.append(particleToString(p)+"\n");
 		}
 
 
@@ -90,7 +90,7 @@ public class OffLattice {
 			buffer.append(particles.size()+"\n");
 			buffer.append(time + 1+"\n");
 			for (Particle particle: particles) {
-				buffer.append(particle.getId()+" "+particle.getPosition().x + " " + particle.getPosition().y + " " + particle.getAngle()+"\n");
+				buffer.append(particleToString(particle)+"\n");
 				particle.clearNeighbours();
 				assignCell(particle);
 			}
@@ -248,6 +248,18 @@ public class OffLattice {
 			this.particle = particle;
 			this.cellPosition = cellPosition;
 		}
+	}
+
+	private static String particleToString(Particle p) {
+		return p.getId()+" "+
+				p.getPosition().x + " " +
+				p.getPosition().y + " " +
+				256*Math.cos(p.getAngle())+" "+
+				256*Math.cos(p.getAngle() + 120)+" "+
+				256*Math.cos(p.getAngle() - 120)+" "+
+				s*Math.cos(p.getAngle())+" "+
+				s*Math.sin(p.getAngle())
+				;
 	}
 
 }
