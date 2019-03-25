@@ -1,6 +1,5 @@
 import algorithms.OffLattice;
 import com.google.devtools.common.options.OptionsParser;
-import io.OctaveWriter;
 import io.OvitoWriter;
 import io.Parser;
 import io.SimulationOptions;
@@ -9,6 +8,7 @@ import models.Particle;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Queue;
 
 public class App {
@@ -91,14 +91,10 @@ public class App {
 			e.printStackTrace();
 		}
 
-		OctaveWriter octaveWriter;
-		try {
-			octaveWriter = new OctaveWriter(Paths.get("order_parameter_file.txt"));
-			octaveWriter.writeOrderValuesThroughIterations(OffLattice.getOrderValues());
-			octaveWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		System.out.println(OffLattice.getOrderValues().stream()
+				.mapToDouble(Double::doubleValue)
+				.average()
+				.getAsDouble());
 	}
 
 	private static void printUsage(OptionsParser parser) {

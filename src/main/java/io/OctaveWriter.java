@@ -29,6 +29,16 @@ public class OctaveWriter {
 		this.fileWriter.close();
 	}
 
+//	public void writeAverageOrderValue(final Queue<Double> orderValues) throws IOException {
+//		final StringBuilder builder = new StringBuilder();
+//		builder.append("result = [")
+//				.append(orderValues.stream().mapToDouble(Double::doubleValue).average().getAsDouble())
+//				.append("];")
+//				.append("\n");
+//		fileWriter.append(builder.toString());
+//		fileWriter.flush();
+//	}
+
 	public void writeOrderValuesThroughIterations(final Queue<Double> orderValues) throws IOException {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("result = [").append(Double.toString(orderValues.poll()));
