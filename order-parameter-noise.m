@@ -11,8 +11,8 @@ rc=0.5;
 
 # data from Paper
 # N, L, grap symbol, M
-#simulation_data_values={40, 3.1, 's',3; 100, 5, '+',4; 400, 10, 'x',8; 4000, 31.6, '^',30; 10000, 50, 'd',40}
-simulation_data_values={40, 3.1, 's',6; 100, 5, '+',8; 400, 10, 'x',18}
+#simulation_data_values={40, 3.1, 's', 3; 100, 5, '+',4; 400, 10, 'x', 8; 4000, 31.6, '^', 30; 10000, 50, 'd', 40}
+simulation_data_values={40, 3.1, 's', 6; 100, 5, '+',8; 400, 10, 'x', 18}
 
 etha_values=0:0.25:5;
 
