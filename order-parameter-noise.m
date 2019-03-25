@@ -9,8 +9,6 @@ simOutputFile = sprintf("./output.txt");
 delta_t=1;
 rc=0.5;
 
-# data from Paper
-# N, L, grap symbol, M
 #simulation_data_values={40, 3.1, 's', 3; 100, 5, '+',4; 400, 10, 'x', 8; 4000, 31.6, '^', 30; 10000, 50, 'd', 40}
 simulation_data_values={40, 3.1, 's', 6; 100, 5, '+',8; 400, 10, 'x', 18}
 
@@ -23,27 +21,24 @@ for i=1:rows(simulation_data_values)
        N=simulation_data_values{i,1};
        L=simulation_data_values{i,2};
        M=simulation_data_values{i,4};
-
        marker=simulation_data_values{i,3};
 
-       outputFileName= sprintf("./graphics/va_N=%d.txt",N);
-       outputFile = fopen(outputFileName, 'w');
+       outputFileName= sprintf("./output/N=%d-L=%d-M=%d.txt", N, L, M);
+       outputFile = fopen(outputFileName, 'r');
 
-       for etha=etha_values
-              etha
-              va_values=zeros(1,times);
+       % for etha=etha_values
+       %               etha
+       %               va_values=zeros(1,times);
+       %               for k=1:times
+       %                 particles2=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,etha,particles1);
+       %                 va=getVa(particles2,N, defaultVelocity);
+       %                 va_values(k)=va;
+       %               endfor
+       %               va_mean=mean(va_values);
+       %               dlmwrite(outputFile, [etha,va_mean], "  ");
+       %               plot(etha,va_mean,"marker",marker);
 
-              for k=1:times
-                fid = fopen(simOutputFile,'r');
-                fgetl(fid); % Omit execution time line
-                va_values(k)=strread(fgetl(fid), '%n');
-                va_values(k)
-              endfor
-
-              va_mean=mean(va_values); 
-              dlmwrite(outputFile, [etha,va_mean], "  "); 
-              plot(etha,va_mean,"marker",marker);
-       endfor
+       %        endfor
        fclose(outputFile);
 endfor;
 

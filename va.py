@@ -5,6 +5,7 @@ import numpy
 
 dirName="output"
 
+defaultVelocity = 0.03;
 duration=1000;
 
 simOutputFile = "./output.txt";
@@ -31,29 +32,36 @@ for i in range(0, len(simulation_data_values)):
 	M=simulation_data_values[i][3]
 	marker=simulation_data_values[i][2]
 
-	for e in etha_values:
-		averages = [e]
-		std = ['std']
-		values = []
-		for k in range(1, 3):
-			command = 'java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-N={n}.txt --radius={rc} --matrix={matrix} --noise={noise} --speed=0.03 --time={time} --boxSide={L}'.format(
-					n=N,
-					rc= rc,
-					matrix=M,
-					noise=e,
-					time=duration,
-					L=L
-					)
-			print(command)
-			p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-			number = None;
-			p.stdout.readline();
-			line = p.stdout.readlines()
-			number = line[0].decode()
-			number = number.replace('\n', '')
-			values.append(float(number))
-		retval = p.wait()
-		averages.append(numpy.mean(values))
-		std.append(round(numpy.std(values),5))
-		print(averages)
-		print(std)
+	with open('output/N={n}-L={boxSide}-M={matrix}.txt'.format(
+		n=N,
+		boxSide=L,
+		matrix=M), 'w') as f:
+		for e in etha_values:
+			averages = [e]
+			std = ['std']
+			values = []
+			for k in range(1, 5):
+				command = 'java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-N={n}.txt --radius={rc} --matrix={matrix} --noise={noise} --speed={defaultVelocity} --time={time} --boxSide={L}'.format(
+						n=N,
+						rc= rc,
+						matrix=M,
+						noise=e,
+						time=duration,
+						L=L,
+						defaultVelocity=defaultVelocity
+						)
+				print(command)
+				p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+				number = None;
+				p.stdout.readline();
+				line = p.stdout.readlines()
+				number = line[0].decode()
+				number = number.replace('\n', '')
+				values.append(float(number))
+			retval = p.wait()
+			averages.append(numpy.mean(values))
+			std.append(round(numpy.std(values),5))
+			f.write(' '.join([str(x) for x in averages]))
+			f.write('\n')
+			f.write(' '.join([str(x) for x in std]))
+			f.write('\n')
