@@ -22,6 +22,7 @@ public class OffLattice {
 	private static double n;
 	private static double s;
 	private static StringBuffer buffer;
+	private static Queue<Double> orderValues;
 
 	public static void run(
 			Queue<Particle> particlesFromDynamic,
@@ -40,10 +41,11 @@ public class OffLattice {
 		s = speed;
 		buffer = buff;
 		makeMatrix();
+		orderValues = new LinkedList<>();
 
 		// Add particles to the cells they belong and print their location
-		buffer.append(particlesFromDynamic.size()+"\n");
-		buffer.append(0+"\n");
+		buffer.append(particlesFromDynamic.size() + "\n");
+		buffer.append(0 + "\n");
 		for (Particle p : particlesFromDynamic) {
 
 			// Assign cell
@@ -54,7 +56,7 @@ public class OffLattice {
 
 
 		// Do the off-lattice magic
-		for (int time = 0; time<limitTime ; time++){
+		for (int time = 0; time < limitTime; time++) {
 			// estoy en Tn y voy a calcular Tn+1
 			List<List<CellParticle>> matrixA = cloneMatrix(cells);
 			List<Particle> particles = new LinkedList<>();
@@ -67,15 +69,15 @@ public class OffLattice {
 
 					// Check neighbouring cells from inverted up-side down L shape
 					visitNeighbour(cp.particle, cellX, cellY, matrixA, cells);
-//					visitNeighbour(cp.particle, cellX, cellY + 1);
-//					visitNeighbour(cp.particle, cellX + 1, cellY + 1);
-//					visitNeighbour(cp.particle, cellX + 1, cellY);
-//					visitNeighbour(cp.particle, cellX + 1, cellY - 1);
+					visitNeighbour(cp.particle, cellX, cellY + 1, matrixA, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY + 1, matrixA, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY, matrixA, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY - 1, matrixA, cells);
 				}
 			}
 
 			//cambia positions
-			for (List<CellParticle> cpList:cells) {
+			for (List<CellParticle> cpList : cells) {
 				for (CellParticle cp : cpList) {
 					Particle particle = cp.particle;
 					calculatePosition(particle);
@@ -87,26 +89,31 @@ public class OffLattice {
 
 			// imprime y blanquea para el siguiente clonado
 			makeMatrix();
-			buffer.append(particles.size()+"\n");
-			buffer.append(time + 1+"\n");
-			for (Particle particle: particles) {
+			buffer.append(particles.size() + "\n");
+			buffer.append(time + 1 + "\n");
+			for (Particle particle : particles) {
 				buffer.append(particle.getId()+" "+particle.getPosition().x + " " + particle.getPosition().y + " " + particle.getAngle()+"\n");
 				particle.clearNeighbours();
 				assignCell(particle);
 			}
 
+			orderValues.add(getOrderValue(particles));
 		}
+	}
+
+	public static Queue<Double> getOrderValues() {
+		return orderValues;
 	}
 
 	private static List<List<CellParticle>> cloneMatrix(List<List<CellParticle>> cells) throws CloneNotSupportedException {
 		List<List<CellParticle>> clone = new ArrayList<>();
 
-		for(List<CellParticle> cellParticles : cells){
+		for (List<CellParticle> cellParticles : cells) {
 			List<CellParticle> cloneCellParticles = new ArrayList<>();
-			for(CellParticle cellParticle : cellParticles) {
+			for (CellParticle cellParticle : cellParticles) {
 				Particle particleClone = cellParticle.particle.getClone();
 				cloneCellParticles.add(new CellParticle(particleClone,
-										new Point2D.Double(cellParticle.cellPosition.x, cellParticle.cellPosition.y)));
+						new Point2D.Double(cellParticle.cellPosition.x, cellParticle.cellPosition.y)));
 			}
 			clone.add(cloneCellParticles);
 		}
@@ -132,52 +139,53 @@ public class OffLattice {
 			cells.add(new ArrayList<>());
 	}
 
-	private static void calculatePosition(Particle p){
+	private static void calculatePosition(Particle p) {
 		p.getPosition().x += Math.cos(p.getAngle()) * s;
 		p.getPosition().y += Math.sin(p.getAngle()) * s;
-		if (p.getPosition().x >= L){
+		if (p.getPosition().x >= L) {
 			p.getPosition().x -= L;
 		}
-		if (p.getPosition().y >= L){
+		if (p.getPosition().y >= L) {
 			p.getPosition().y -= L;
 		}
-		if (p.getPosition().x < 0){
+		if (p.getPosition().x < 0) {
 			p.getPosition().x += L;
 		}
-		if (p.getPosition().y < 0){
+		if (p.getPosition().y < 0) {
 			p.getPosition().y += L;
 		}
 	}
 
 	private static void calculateAngle(Particle particle) {
-		Double angle = 0.0;
+		Double angle;
 		Set<Particle> neighbours = particle.getNeighbours();
 
-		double sin = 0;
-		double cos = 0;
-		for (Particle neighbour : neighbours){
+		// Average includes particle and its neighbours
+		double sin = Math.sin(particle.getAngle());
+		double cos = Math.cos(particle.getAngle());
+
+		for (Particle neighbour : neighbours) {
 			sin += Math.sin(neighbour.getAngle());
 			cos += Math.cos(neighbour.getAngle());
 		}
 
-		sin = sin / neighbours.size();
-		cos = cos / neighbours.size();
+		sin = sin / neighbours.size() + 1;
+		cos = cos / neighbours.size() + 1;
 		angle = Math.atan2(sin, cos);
-		if (angle.isNaN()) angle = particle.getAngle();
-		double noise =  n * (Math.random() - 1.0 / 2.0); // TODO consultar si se agrega ruido cuando no existen vecinos
+
+		double noise = n * (Math.random() - 1.0 / 2.0);
 		angle += noise;
 
-		if (angle > Math.PI){
-			angle -= 2*Math.PI;
-		}else if (angle < -Math.PI){
-			angle += 2*Math.PI;
+		if (angle > Math.PI) {
+			angle -= 2 * Math.PI;
+		} else if (angle < -Math.PI) {
+			angle += 2 * Math.PI;
 		}
 
 		particle.setAngle(angle);
 	}
 
 	/**
-	 *
 	 * @param particle es la particula en cuestion en matriz CELL
 	 * @param cellX
 	 * @param cellY
@@ -187,7 +195,7 @@ public class OffLattice {
 	private static void visitNeighbour(Particle particle, double cellX, double cellY, List<List<CellParticle>> matrixA, List<List<CellParticle>> cells) {
 
 		// Reset neighbour cell indexes to comply with contour
-		if (cellX >= M){
+		if (cellX >= M) {
 			cellX = 0;
 		}
 
@@ -195,7 +203,7 @@ public class OffLattice {
 			cellX = M - 1;
 		}
 
-		if (cellY >= M){
+		if (cellY >= M) {
 			cellY = 0;
 		}
 
@@ -221,9 +229,9 @@ public class OffLattice {
 					particle.addNeighbour(neighbourParticle); //a la particula en cells le puse vecina a la de matrizA
 					//neighbourParticle.addNeighbour(particle);
 					boolean eject = false;
-					for (List<CellParticle> cpList:cells){
-						for (CellParticle cp: cpList) {
-							if(cp.particle.getId() == neighbourParticle.getId()) {
+					for (List<CellParticle> cpList : cells) {
+						for (CellParticle cp : cpList) {
+							if (cp.particle.getId() == neighbourParticle.getId()) {
 								neighbourParticle.addNeighbour(particle);
 								eject = true;
 								break;
@@ -239,6 +247,19 @@ public class OffLattice {
 		}
 	}
 
+	private static double getOrderValue(List<Particle> particles) {
+		double totalVx = 0.0;
+		double totalVy = 0.0;
+
+		for (Particle p : particles) {
+			totalVx += s * Math.cos(p.getAngle());
+			totalVy += s * Math.sin(p.getAngle());
+		}
+
+		double totalVi = Math.sqrt(Math.pow(totalVx, 2) + Math.pow(totalVy, 2));
+
+		return totalVi / (particles.size() * s);
+	}
 
 	private static class CellParticle {
 		Particle particle;

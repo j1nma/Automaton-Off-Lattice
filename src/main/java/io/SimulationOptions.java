@@ -66,7 +66,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 's',
 			help = "Speed module of the environment",
 			category = "startup",
-			defaultValue = "0.3"
+			defaultValue = "0.03"
 	)
 	public double speed;
 

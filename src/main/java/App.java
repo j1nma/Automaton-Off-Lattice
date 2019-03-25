@@ -1,5 +1,6 @@
 import algorithms.OffLattice;
 import com.google.devtools.common.options.OptionsParser;
+import io.OctaveWriter;
 import io.OvitoWriter;
 import io.Parser;
 import io.SimulationOptions;
@@ -8,7 +9,6 @@ import models.Particle;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Queue;
 
 public class App {
@@ -65,6 +65,7 @@ public class App {
 
 		StringBuffer buffer = new StringBuffer();
 		long startTime = System.currentTimeMillis();
+
 		OffLattice.run(
 				particles,
 				L,
@@ -86,6 +87,15 @@ public class App {
 			ovitoWriter = new OvitoWriter<>(Paths.get("ovito_file.txt"));
 			ovitoWriter.writeBuffer(buffer);
 			ovitoWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		OctaveWriter octaveWriter;
+		try {
+			octaveWriter = new OctaveWriter(Paths.get("order_parameter_file.txt"));
+			octaveWriter.writeOrderValuesThroughIterations(OffLattice.getOrderValues());
+			octaveWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
