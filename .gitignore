@@ -173,7 +173,6 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-random
-!random/*.py
+!/random/*.py
 /ovito_file.txt
 *.avi
