@@ -175,4 +175,6 @@ buildNumber.properties
 
 !/random/*.py
 /ovito_file.txt
-*.avi
+high density and low noise.avi
+high density and noise.avi
+small density and noise.avi
