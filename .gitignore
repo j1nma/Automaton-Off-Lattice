@@ -176,3 +176,4 @@ buildNumber.properties
 random
 !random/*.py
 /ovito_file.txt
+*.avi
