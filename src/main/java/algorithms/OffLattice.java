@@ -43,9 +43,16 @@ public class OffLattice {
 		makeMatrix();
 		orderValues = new LinkedList<>();
 
+		Particle dummy1 = new Particle(-1,0);
+		Particle dummy2 = new Particle(0,0);
+		dummy1.setPosition(new Point2D.Double(0,0));
+		dummy2.setPosition(new Point2D.Double(L,L));
+
 		// Add particles to the cells they belong and print their location
-		buffer.append(particlesFromDynamic.size() + "\n");
+		buffer.append(particlesFromDynamic.size()+2 + "\n");
 		buffer.append(0 + "\n");
+		buffer.append(particleToString(dummy1) + "\n");
+		buffer.append(particleToString(dummy2) + "\n");
 		for (Particle p : particlesFromDynamic) {
 
 			// Assign cell
@@ -89,8 +96,10 @@ public class OffLattice {
 
 			// imprime y blanquea para el siguiente clonado
 			makeMatrix();
-			buffer.append(particles.size() + "\n");
+			buffer.append(particles.size()+2 + "\n");
 			buffer.append(time + 1 + "\n");
+			buffer.append(particleToString(dummy1) + "\n");
+			buffer.append(particleToString(dummy2) + "\n");
 			for (Particle particle : particles) {
 				buffer.append(particleToString(particle) + "\n");
 				particle.clearNeighbours();
@@ -169,18 +178,18 @@ public class OffLattice {
 			cos += Math.cos(neighbour.getAngle());
 		}
 
-		sin = sin / neighbours.size() + 1;
-		cos = cos / neighbours.size() + 1;
+		sin = sin / (neighbours.size() + 1);
+		cos = cos / (neighbours.size() + 1);
 		angle = Math.atan2(sin, cos);
 
 		double noise = n * (Math.random() - 1.0 / 2.0);
 		angle += noise;
 
-		if (angle > Math.PI) {
-			angle -= 2 * Math.PI;
-		} else if (angle < -Math.PI) {
-			angle += 2 * Math.PI;
-		}
+//		if (angle > Math.PI) {
+//			angle -= 2 * Math.PI;
+//		} else if (angle < -Math.PI) {
+//			angle += 2 * Math.PI;
+//		}
 
 		particle.setAngle(angle);
 	}
@@ -241,9 +250,6 @@ public class OffLattice {
 					}
 				}
 			}
-//			else{
-//			particle.addNeighbour(particle);
-//			}
 		}
 	}
 
@@ -276,8 +282,8 @@ public class OffLattice {
 				p.getPosition().x + " " +
 				p.getPosition().y + " " +
 				256 * Math.cos(p.getAngle()) + " " +
-				256 * Math.cos(p.getAngle() + 120) + " " +
-				256 * Math.cos(p.getAngle() - 120) + " " +
+				256 * Math.cos(p.getAngle() + ((2*Math.PI)/3)) + " " +
+				256 * Math.cos(p.getAngle() - ((2*Math.PI)/3)) + " " +
 				s * Math.cos(p.getAngle()) + " " +
 				s * Math.sin(p.getAngle())
 				;

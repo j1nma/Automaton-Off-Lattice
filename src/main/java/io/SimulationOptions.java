@@ -30,7 +30,7 @@ public class SimulationOptions extends OptionsBase {
 			abbrev = 'r',
 			help = "interaction radius",
 			category = "startup",
-			defaultValue = "1.0"
+			defaultValue = "0.5"
 	)
 	public double rc;
 
