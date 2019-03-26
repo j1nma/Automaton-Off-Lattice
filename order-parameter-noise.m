@@ -1,14 +1,12 @@
 #! /bin/octave -qf
 
 defaultVelocity = 0.03;
-radius = 0;
-periodic = true;
-duration=1000;
+duration = 2000;
 
-delta_t=1;
-rc=0.5;
+rc=1;
+simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
 
-simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
+% simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
 
 etha_values=0:0.25:5;
 
@@ -20,10 +18,11 @@ for i=1:rows(simulation_data_values)
        M=simulation_data_values{i,4};
        marker=simulation_data_values{i,3};
 
-       outputFileName = sprintf("./output/N=%d-L=%d-M=%d.txt", N, L, M);
+       outputFileName = sprintf("./output/duration=%d/N=%d-L=%d-M=%d.txt", duration, N, L, M);
        outputFile = fopen(outputFileName, 'r');
 
        va_plot_values = zeros(size(etha_values));
+       std_plot_values = zeros(size(etha_values));
        plot_index = 1;
 
        while ~feof(outputFile)
@@ -36,7 +35,8 @@ for i=1:rows(simulation_data_values)
         % Read std
         tline = fgetl(outputFile);
         data = strsplit(tline);
-        stderr = data{1,2};
+        stderr = str2num(data{1,2});
+        std_plot_values(plot_index) = stderr;
 
         plot_index += 1;
       end
@@ -47,11 +47,11 @@ endfor;
 
 xlabel('etha');
 ylabel('Va');
+% errorbar(va_plot_values, std_plot_values)
 axis([0 5.0 0 1.0])
 title("El valor absoluto de la velocidad media frente al ruido para una densidad fija")
 grid on
 legend('N=40','N=100','N=400');
 hold off;
 
-% print -djpg sprintf("./graphics/va_curves_duration=%d.jpg", duration)
 print(sprintf("./graphics/va_curves_duration=%d.jpg", duration), "-djpg")

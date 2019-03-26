@@ -4,15 +4,19 @@ import csv
 import numpy
 
 defaultVelocity = 0.03;
-duration=1000;
+duration=2000;
 
 dirName='output/duration={duration}'.format(duration=duration)
 
-rc=0.5
+rc=1
+data_values_1 = [40, 3.1, 's', 3]
+data_values_2 = [100, 5, '+', 4]
+data_values_3 = [400, 10, 'x', 9]
 
-data_values_1 = [40, 3.1, 's', 6]
-data_values_2 = [100, 5, '+', 8]
-data_values_3 = [400, 10, 'x', 18]
+# rc=0.5
+# data_values_1 = [40, 3.1, 's', 6]
+# data_values_2 = [100, 5, '+', 8]
+# data_values_3 = [400, 10, 'x', 18]
 
 simulation_data_values = [data_values_1, data_values_2, data_values_3]
 
@@ -37,7 +41,7 @@ for i in range(0, len(simulation_data_values)):
 			averages = [e]
 			std = ['std']
 			values = []
-			for k in range(1, 5):
+			for k in range(1, 6):
 				command = 'java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-N={n}.txt --radius={rc} --matrix={matrix} --noise={noise} --speed={defaultVelocity} --time={time} --boxSide={L}'.format(
 						n=N,
 						rc= rc,
