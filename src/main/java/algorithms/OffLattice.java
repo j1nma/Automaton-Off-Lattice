@@ -21,7 +21,6 @@ public class OffLattice {
 	private static double rc;
 	private static double n;
 	private static double s;
-	private static StringBuffer buffer;
 	private static Queue<Double> orderValues;
 
 	public static void run(
@@ -39,26 +38,26 @@ public class OffLattice {
 		L = boxSide;
 		n = noise;
 		s = speed;
-		buffer = buff;
 		makeMatrix();
 		orderValues = new LinkedList<>();
 
-		Particle dummy1 = new Particle(-1,0);
-		Particle dummy2 = new Particle(0,0);
-		dummy1.setPosition(new Point2D.Double(0,0));
-		dummy2.setPosition(new Point2D.Double(L,L));
+		Particle dummy1 = new Particle(-1, 0);
+		Particle dummy2 = new Particle(0, 0);
+		dummy1.setPosition(new Point2D.Double(0, 0));
+		dummy2.setPosition(new Point2D.Double(L, L));
 
 		// Add particles to the cells they belong and print their location
-		buffer.append(particlesFromDynamic.size()+2 + "\n");
-		buffer.append(0 + "\n");
-		buffer.append(particleToString(dummy1) + "\n");
-		buffer.append(particleToString(dummy2) + "\n");
+		buff.append(particlesFromDynamic.size()).append(2).append("\n")
+				.append(0 + "\n")
+				.append(particleToString(dummy1)).append("\n")
+				.append(particleToString(dummy2)).append("\n");
+
 		for (Particle p : particlesFromDynamic) {
 
 			// Assign cell
 			assignCell(p);
 			// Print location
-			buffer.append(particleToString(p) + "\n");
+			buff.append(particleToString(p)).append("\n");
 		}
 
 
@@ -96,12 +95,13 @@ public class OffLattice {
 
 			// imprime y blanquea para el siguiente clonado
 			makeMatrix();
-			buffer.append(particles.size()+2 + "\n");
-			buffer.append(time + 1 + "\n");
-			buffer.append(particleToString(dummy1) + "\n");
-			buffer.append(particleToString(dummy2) + "\n");
+			buff.append(particles.size()).append(2).append("\n")
+					.append(time).append(1).append("\n")
+					.append(particleToString(dummy1)).append("\n")
+					.append(particleToString(dummy2)).append("\n");
+
 			for (Particle particle : particles) {
-				buffer.append(particleToString(particle) + "\n");
+				buff.append(particleToString(particle)).append("\n");
 				particle.clearNeighbours();
 				assignCell(particle);
 			}
@@ -196,10 +196,6 @@ public class OffLattice {
 
 	/**
 	 * @param particle es la particula en cuestion en matriz CELL
-	 * @param cellX
-	 * @param cellY
-	 * @param matrixA
-	 * @param cells
 	 */
 	private static void visitNeighbour(Particle particle, double cellX, double cellY, List<List<CellParticle>> matrixA, List<List<CellParticle>> cells) {
 
@@ -282,8 +278,8 @@ public class OffLattice {
 				p.getPosition().x + " " +
 				p.getPosition().y + " " +
 				256 * Math.cos(p.getAngle()) + " " +
-				256 * Math.cos(p.getAngle() + ((2*Math.PI)/3)) + " " +
-				256 * Math.cos(p.getAngle() - ((2*Math.PI)/3)) + " " +
+				256 * Math.cos(p.getAngle() + ((2 * Math.PI) / 3)) + " " +
+				256 * Math.cos(p.getAngle() - ((2 * Math.PI) / 3)) + " " +
 				s * Math.cos(p.getAngle()) + " " +
 				s * Math.sin(p.getAngle())
 				;

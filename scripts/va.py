@@ -2,10 +2,9 @@ import os
 import subprocess
 import csv
 import numpy
-import generate_for_va
 
 defaultVelocity = 0.03;
-duration=1000;
+duration=4000;
 
 dirName='../output/duration={duration}'.format(duration=duration)
 
@@ -27,9 +26,6 @@ for i in range(0, len(simulation_data_values)):
 	L=simulation_data_values[i][1]
 	M=simulation_data_values[i][2]
 
-	generate_for_va(N, L)
-	exit
-
 	with open('{dirName}/N={n}-L={boxSide}-M={matrix}.txt'.format(
 		dirName=dirName,
 		n=N,
@@ -40,7 +36,8 @@ for i in range(0, len(simulation_data_values)):
 			std = ['std']
 			values = []
 			for k in range(1, 6):
-				command = 'java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile=scripts/Dynamic-N={n}.txt --radius={rc} --matrix={matrix} --noise={noise} --speed={defaultVelocity} --time={time} --boxSide={L}'.format(
+				os.system('python3 ./generate_for_va.py {N} {L}'.format(N = N, L = L))
+				command = 'java -jar ../target/tp2-1.0-SNAPSHOT.jar --dynamicFile=Dynamic-N={n}.txt --radius={rc} --matrix={matrix} --noise={noise} --speed={defaultVelocity} --time={time} --boxSide={L}'.format(
 						n=N,
 						rc= rc,
 						matrix=M,

@@ -91,10 +91,12 @@ public class App {
 			e.printStackTrace();
 		}
 
-		System.out.println(OffLattice.getOrderValues().stream()
-				.mapToDouble(Double::doubleValue)
-				.average()
-				.getAsDouble());
+//		System.out.println(OffLattice.getOrderValues().stream()
+//				.mapToDouble(Double::doubleValue)
+//				.average()
+//				.getAsDouble());
+		System.out.println(OffLattice.getOrderValues().poll());
+
 	}
 
 	private static void printUsage(OptionsParser parser) {

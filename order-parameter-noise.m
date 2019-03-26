@@ -1,12 +1,10 @@
 #! /bin/octave -qf
 
 defaultVelocity = 0.03;
-duration =1000;
+duration=1000;
 
 rc=1;
-% simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
-
-simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
+simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
 
 etha_values=0:0.25:5;
 
@@ -41,13 +39,16 @@ for i=1:rows(simulation_data_values)
         plot_index += 1;
       end
 
-      plot(etha_values, va_plot_values, "marker", marker, "linestyle", "none", "color", simulation_data_values{i,5});
+      fmt = sprintf(".%s", simulation_data_values{i,5});
+      plot = errorbar(etha_values, va_plot_values, std_plot_values, fmt);
+      set(plot, "linestyle", "none");
+      set(plot, "marker", marker);
+      %plot(etha_values, va_plot_values, "marker", marker, "linestyle", "none", "color", simulation_data_values{i,5});
       fclose(outputFile);
 endfor;
 
 xlabel('etha');
 ylabel('Va');
-% errorbar(va_plot_values, std_plot_values)
 axis([0 5.0 0 1.0])
 title("El valor absoluto de la velocidad media frente al ruido para una densidad fija")
 grid on
