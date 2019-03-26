@@ -9,14 +9,9 @@ duration=1000;
 dirName='output/duration={duration}'.format(duration=duration)
 
 rc=1
-data_values_1 = [40, 3.1, 's', 3]
-data_values_2 = [100, 5, '+', 4]
-data_values_3 = [400, 10, 'x', 9]
-
-# rc=0.5
-# data_values_1 = [40, 3.1, 's', 6]
-# data_values_2 = [100, 5, '+', 8]
-# data_values_3 = [400, 10, 'x', 18]
+data_values_1 = [40, 3.1, 3]
+data_values_2 = [100, 5, 4]
+data_values_3 = [400, 10, 9]
 
 simulation_data_values = [data_values_1, data_values_2, data_values_3]
 
@@ -30,7 +25,6 @@ for i in range(0, len(simulation_data_values)):
 	N=simulation_data_values[i][0]
 	L=simulation_data_values[i][1]
 	M=simulation_data_values[i][3]
-	marker=simulation_data_values[i][2]
 
 	with open('{dirName}/N={n}-L={boxSide}-M={matrix}.txt'.format(
 		dirName=dirName,

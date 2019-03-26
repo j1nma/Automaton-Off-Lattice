@@ -3,24 +3,24 @@
 ## Compilation
 
 ```
-mvn package
+mvn clean package
 ```
 
 ## Execution
 ### Generation of dynamic file
-To generate a file for a specific L, N and particle radius.
+To generate a file for a specific L and N.
 ```
-python generate.py
+python scripts/random/generate.py 40 20.0
 ```
 
 To generate multiple files for N from 100 to 1000.
 ```
-python generate_multiple.py
+python scripts/random/generate_multiple.py
 ```
 ### Running simulation
 
 ```
-java -jar tp2-1.0-SNAPSHOT.jar
+java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile="./random/Dynamic-N=300.txt" -n 0.1 -t 1000 -l 5.0 -M 4 -r 1
 ```
 
 Options:
@@ -33,18 +33,16 @@ Options:
 * **--dynamicFile &lt;path>**: Path to dynamic file.
 
 The simulation's results (execution time and list of neighbours for each particle)
-are printed to `/ovito_file.txt`.
+are printed to `ovito_file.txt`.
+
+### Run script to generate order parameter (Va) means for a particular set of parameters
 
 ```
-java -jar target/tp2-1.0-SNAPSHOT.jar --dynamicFile ./random/Dynamic-N=300.txt -n 0.1 -t 1000 -l 5.0 -M 4 -r 1 
-
+python3 scripts/va.py
 ```
 
-### Va Mean && standard deviation
+### (Octave) Run script to graph order parameter versus noise
 
 ```
-python3 va.py
+run("order-parameter-noise.m")
 ```
-
-The calculation of the Va mean and the standart deviation based on repeated tests.
-
