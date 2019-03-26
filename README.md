@@ -33,21 +33,18 @@ Options:
 * **--dynamicFile &lt;path>**: Path to dynamic file.
 
 The simulation's results (execution time and list of neighbours for each particle)
-are printed to stdout. If you wish, you can redirect the output to a txt file:
+are printed to `/ovito_file.txt`.
 
 ```
-java -jar target/tp2-1.0-SNAPSHOT.jar --dynamicFile=random/Dynamic-N=100.txt --radius=3.0 > output.txt
-```
-
-### Running Animation
-
-The file `animation.m` provides of a function that animates the simulation's results:
-
-* **dynamic_file**: Path to dynamic file.
-* **output_file**: Path to output file.
-* **M**: MxM matrix size.
-* **particle_id**: a certain particle id to view with its neighbors.
+java -jar target/tp2-1.0-SNAPSHOT.jar --dynamicFile ./random/Dynamic-N=300.txt -n 0.1 -t 1000 -l 5.0 -M 4 -r 1 
 
 ```
-animation('./random/Dynamic-5.txt','./output.txt', 20, 43);
+
+### Va Mean && standard deviation
+
 ```
+python3 va.py
+```
+
+The calculation of the Va mean and the standart deviation based on repeated tests.
+
