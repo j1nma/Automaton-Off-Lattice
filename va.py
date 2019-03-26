@@ -3,15 +3,13 @@ import subprocess
 import csv
 import numpy
 
-dirName="output"
-
 defaultVelocity = 0.03;
 duration=1000;
 
-simOutputFile = "./output.txt";
+dirName='output/duration={duration}'.format(duration=duration)
+
 rc=0.5
 
-#simulation_data_values={40, 3.1, 's', 3; 100, 5, '+',4; 400, 10, 'x', 8; 4000, 31.6, '^', 30; 10000, 50, 'd', 40}
 data_values_1 = [40, 3.1, 's', 6]
 data_values_2 = [100, 5, '+', 8]
 data_values_3 = [400, 10, 'x', 18]
@@ -19,8 +17,6 @@ data_values_3 = [400, 10, 'x', 18]
 simulation_data_values = [data_values_1, data_values_2, data_values_3]
 
 etha_values=[x * 0.25 for x in range(0, 21)];
-
-times=20
 
 if not os.path.exists(dirName):
         os.mkdir(dirName)
@@ -32,7 +28,8 @@ for i in range(0, len(simulation_data_values)):
 	M=simulation_data_values[i][3]
 	marker=simulation_data_values[i][2]
 
-	with open('output/N={n}-L={boxSide}-M={matrix}.txt'.format(
+	with open('{dirName}/N={n}-L={boxSide}-M={matrix}.txt'.format(
+		dirName=dirName,
 		n=N,
 		boxSide=L,
 		matrix=M), 'w') as f:
