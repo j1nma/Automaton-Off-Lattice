@@ -1,20 +1,15 @@
 #! /bin/octave -qf
 
 defaultVelocity = 0.03;
-radius = 0;
-periodic = true;
-duration=1000;
+duration = 2000;
 
-simOutputFile = sprintf("./output.txt");
-delta_t=1;
-rc=0.5;
+rc=1;
+simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
 
-#simulation_data_values={40, 3.1, 's', 3; 100, 5, '+',4; 400, 10, 'x', 8; 4000, 31.6, '^', 30; 10000, 50, 'd', 40}
-simulation_data_values={40, 3.1, 's', 6; 100, 5, '+',8; 400, 10, 'x', 18}
+% simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
 
 etha_values=0:0.25:5;
 
-times=20;
 hold on;
 
 for i=1:rows(simulation_data_values)
@@ -23,28 +18,40 @@ for i=1:rows(simulation_data_values)
        M=simulation_data_values{i,4};
        marker=simulation_data_values{i,3};
 
-       outputFileName= sprintf("./output/N=%d-L=%d-M=%d.txt", N, L, M);
+       outputFileName = sprintf("./output/duration=%d/N=%d-L=%d-M=%d.txt", duration, N, L, M);
        outputFile = fopen(outputFileName, 'r');
 
-       % for etha=etha_values
-       %               etha
-       %               va_values=zeros(1,times);
-       %               for k=1:times
-       %                 particles2=simulate(simOutputFile, N, L, defaultVelocity, duration, periodic, radius,delta_t,M,rc,etha,particles1);
-       %                 va=getVa(particles2,N, defaultVelocity);
-       %                 va_values(k)=va;
-       %               endfor
-       %               va_mean=mean(va_values);
-       %               dlmwrite(outputFile, [etha,va_mean], "  ");
-       %               plot(etha,va_mean,"marker",marker);
+       va_plot_values = zeros(size(etha_values));
+       std_plot_values = zeros(size(etha_values));
+       plot_index = 1;
 
-       %        endfor
-       fclose(outputFile);
+       while ~feof(outputFile)
+        % Read etha and va
+        tline = fgetl(outputFile);
+        data = strsplit(tline);
+        va_mean = str2num(data{1,2});
+        va_plot_values(plot_index) = va_mean;
+
+        % Read std
+        tline = fgetl(outputFile);
+        data = strsplit(tline);
+        stderr = str2num(data{1,2});
+        std_plot_values(plot_index) = stderr;
+
+        plot_index += 1;
+      end
+
+      plot(etha_values, va_plot_values, "marker", marker, "linestyle", "none", "color", simulation_data_values{i,5});
+      fclose(outputFile);
 endfor;
 
 xlabel('etha');
 ylabel('Va');
+% errorbar(va_plot_values, std_plot_values)
+axis([0 5.0 0 1.0])
+title("El valor absoluto de la velocidad media frente al ruido para una densidad fija")
+grid on
 legend('N=40','N=100','N=400');
 hold off;
 
-print -djpg ./graphics/va_curves.jpg
+print(sprintf("./graphics/va_curves_duration=%d.jpg", duration), "-djpg")
