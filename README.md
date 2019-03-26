@@ -10,17 +10,17 @@ mvn clean package
 ### Generation of dynamic file
 To generate a file for a specific L and N.
 ```
-python scripts/random/generate.py 40 20.0
+python scripts/generate.py 40 20.0
 ```
 
 To generate multiple files for N from 100 to 1000.
 ```
-python scripts/random/generate_multiple.py
+python scripts/generate_multiple.py
 ```
 ### Running simulation
 
 ```
-java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile="./random/Dynamic-N=300.txt" -n 0.1 -t 1000 -l 5.0 -M 4 -r 1
+java -jar ./target/tp2-1.0-SNAPSHOT.jar --dynamicFile="./scripts/Dynamic-N=300.txt" -n 0.1 -t 1000 -l 5.0 -M 4 -r 1
 ```
 
 Options:

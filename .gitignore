@@ -173,7 +173,7 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-!/scripts/random/*.py
+!/scripts/*.py
 /ovito_file.txt
 high density and low noise.avi
 high density and noise.avi
