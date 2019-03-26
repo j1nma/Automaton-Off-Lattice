@@ -74,11 +74,11 @@ public class OffLattice {
 					double cellY = cp.cellPosition.y;
 
 					// Check neighbouring cells from inverted up-side down L shape
-					visitNeighbour(cp.particle, cellX, cellY, matrixA, cells);
-					visitNeighbour(cp.particle, cellX, cellY + 1, matrixA, cells);
-					visitNeighbour(cp.particle, cellX + 1, cellY + 1, matrixA, cells);
-					visitNeighbour(cp.particle, cellX + 1, cellY, matrixA, cells);
-					visitNeighbour(cp.particle, cellX + 1, cellY - 1, matrixA, cells);
+					visitNeighbour(cp.particle, cellX, cellY, cells);
+					visitNeighbour(cp.particle, cellX, cellY + 1, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY + 1, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY, cells);
+					visitNeighbour(cp.particle, cellX + 1, cellY - 1, cells);
 				}
 			}
 
@@ -197,7 +197,7 @@ public class OffLattice {
 	/**
 	 * @param particle es la particula en cuestion en matriz CELL
 	 */
-	private static void visitNeighbour(Particle particle, double cellX, double cellY, List<List<CellParticle>> matrixA, List<List<CellParticle>> cells) {
+	private static void visitNeighbour(Particle particle, double cellX, double cellY, List<List<CellParticle>> cells) {
 
 		// Reset neighbour cell indexes to comply with contour
 		if (cellX >= M) {
