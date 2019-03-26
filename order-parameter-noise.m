@@ -1,12 +1,12 @@
 #! /bin/octave -qf
 
 defaultVelocity = 0.03;
-duration = 2000;
+duration =1000;
 
 rc=1;
-simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
+% simulation_data_values={40, 3.1, 's', 3, 'r'; 100, 5, '+', 4, 'b'; 400, 10, 'x', 9, 'g'};
 
-% simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
+simulation_data_values={40, 3.1, 's', 6, 'r'; 100, 5, '+', 8, 'b'; 400, 10, 'x', 18, 'g'};
 
 etha_values=0:0.25:5;
 

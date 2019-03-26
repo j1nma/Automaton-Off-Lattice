@@ -4,7 +4,7 @@ import csv
 import numpy
 
 defaultVelocity = 0.03;
-duration=2000;
+duration=1000;
 
 dirName='output/duration={duration}'.format(duration=duration)
 
