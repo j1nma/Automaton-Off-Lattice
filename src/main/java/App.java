@@ -1,5 +1,6 @@
 import algorithms.OffLattice;
 import com.google.devtools.common.options.OptionsParser;
+import io.OctaveWriter;
 import io.OvitoWriter;
 import io.Parser;
 import io.SimulationOptions;
@@ -8,6 +9,7 @@ import models.Particle;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -33,7 +35,7 @@ public class App {
 		Parser dynamicParser = new Parser(options.dynamicFile);
 		if (!dynamicParser.parse()) return;
 
-		Queue<Particle> particles = dynamicParser.getParticles();
+		List<Particle> particles = dynamicParser.getParticles();
 
 		// Validate matrix size meets non-punctual criteria
 		if (!BoxSizeMeetsCriteria(options.M,
@@ -55,7 +57,7 @@ public class App {
 		);
 	}
 
-	private static void runAlgorithm(Queue<Particle> particles,
+	private static void runAlgorithm(List<Particle> particles,
 	                                 double L,
 	                                 int M,
 	                                 double interactionRadius,
@@ -91,11 +93,16 @@ public class App {
 			e.printStackTrace();
 		}
 
-//		System.out.println(OffLattice.getOrderValues().stream()
-//				.mapToDouble(Double::doubleValue)
-//				.average()
-//				.getAsDouble());
-		System.out.println(OffLattice.getOrderValues().poll());
+		System.out.println(OffLattice.getOrderValues().peek());
+
+		OctaveWriter octaveWriter;
+		try {
+			octaveWriter = new OctaveWriter(Paths.get("particular_va_file.txt"));
+			octaveWriter.writeOrderValuesThroughIterations(OffLattice.getOrderValues());
+			octaveWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

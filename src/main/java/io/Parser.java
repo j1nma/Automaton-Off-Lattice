@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,7 +17,7 @@ public class Parser {
 	private String dynamicFilePath;
 
 	private int numberOfParticles = 0;
-	private Queue<Particle> particles;
+	private List<Particle> particles;
 
 	public Parser(String dynamicFilePath) {
 		this.dynamicFilePath = dynamicFilePath;
@@ -70,11 +70,11 @@ public class Parser {
 		this.numberOfParticles = numberOfParticles;
 	}
 
-	public Queue<Particle> getParticles() {
+	public List<Particle> getParticles() {
 		return particles;
 	}
 
-	public void setParticles(Queue<Particle> particles) {
+	public void setParticles(List<Particle> particles) {
 		this.particles = particles;
 	}
 }
