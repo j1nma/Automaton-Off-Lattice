@@ -1,5 +1,7 @@
 # Automaton Off-Lattice
 
+<img src="https://github.com/j1nma/Automaton-Off-Lattice/blob/master/automata.gif?raw=true"/>
+
 ## Compilation
 
 ```
